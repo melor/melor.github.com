@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started with Poni &mdash; Poni v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Poni v0.1 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to Poni’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Poni’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Poni v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started-with-poni">
+<h1>Getting Started with Poni<a class="headerlink" href="#getting-started-with-poni" title="Permalink to this headline">¶</a></h1>
+<p>Poni is a command-line tool with many different sub-commands for manipulating the
+Poni repository and the system nodes.</p>
+<p>Let&#8217;s see the command-line help:</p>
+<div class="highlight-python"><pre>$ poni -h
+usage: poni [-h] [-D] [-d DIR]
+
+            {audit,set,remote,script,verify,add-system,list,init,vc,add-config,show,import,add-node,deploy,cloud}
+            ...
+
+positional arguments:
+  {audit,set,remote,script,verify,add-system,list,init,vc,add-config,show,import,add-node,deploy,cloud}
+    list                list systems and nodes
+    add-system          add a sub-system
+    init                init repository
+    import              import nodes/configs
+    script              run commands from a script file
+    add-config          add a config to node(s)
+    set                 set system/node properties
+    show                render and show node config files
+    deploy              deploy node configs
+    audit               audit active node configs
+    verify              verify local node configs
+    add-node            add a new node
+    cloud               cloud operations
+    remote              remote operations
+    vc                  version-control operations
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -D, --debug           enable debug output
+  -d DIR, --root-dir DIR
+                        repository root directory (default: $HOME/.poni/default)</pre>
+</div>
+<p>The default Poni repository directory, unless specified by the <tt class="docutils literal"><span class="pre">PONI_ROOT</span></tt> environment
+variable or by the <tt class="docutils literal"><span class="pre">--root-dir</span> <span class="pre">DIR</span></tt> switch, is <tt class="docutils literal"><span class="pre">$HOME/.poni/default</span></tt>.</p>
+<p>Command-specific help can be viewed by executing <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">&lt;command&gt;</span> <span class="pre">-h</span></tt>, for example:</p>
+<div class="highlight-python"><pre>$ poni add-system -h
+usage: poni add-system [-h] system
+
+positional arguments:
+  system      system name
+
+optional arguments:
+  -h, --help  show this help message and exit</pre>
+</div>
+<div class="section" id="creating-the-poni-repository">
+<h2>Creating the Poni Repository<a class="headerlink" href="#creating-the-poni-repository" title="Permalink to this headline">¶</a></h2>
+<p>First, we will need to initialize the repository using the <tt class="docutils literal"><span class="pre">init</span></tt> command:</p>
+<div class="highlight-python"><pre>$ poni init</pre>
+</div>
+<p>There is no output if the command is successful. Most Poni commands will not output much
+if there are no errors.</p>
+</div>
+<div class="section" id="adding-nodes">
+<h2>Adding Nodes<a class="headerlink" href="#adding-nodes" title="Permalink to this headline">¶</a></h2>
+<p>A &#8220;system&#8221; in the Poni context refers to a collection of nodes and/or sub-systems.</p>
+<p>Let&#8217;s say we are defining a system <tt class="docutils literal"><span class="pre">webshop</span></tt> with four HTTP frontend servers and a
+single backend SQL database server. We will divided the <tt class="docutils literal"><span class="pre">webshop</span></tt> system into two
+sub-systems <tt class="docutils literal"><span class="pre">frontend</span></tt> and <tt class="docutils literal"><span class="pre">backend</span></tt>.</p>
+<p>First, we will create the systems:</p>
+<div class="highlight-python"><pre>$ poni add-system webshop
+$ poni add-system webshop/frontend
+$ poni add-system webshop/backend</pre>
+</div>
+<p>Again, no output since everything went ok.</p>
+<p>Next, we will add the backend SQL database <tt class="docutils literal"><span class="pre">postgres1</span></tt> server node into the
+<tt class="docutils literal"><span class="pre">backend</span></tt> system:</p>
+<div class="highlight-python"><pre>$ poni add-node webshop/backend/postgres1</pre>
+</div>
+<p>Let&#8217;s see how the system looks now:</p>
+<div class="highlight-python"><pre>$ poni list
+  node webshop/backend/postgres1</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">list</span></tt> command shows only nodes by default. Let&#8217;s also view the systems:</p>
+<div class="highlight-python"><pre>$ poni list -s
+  system webshop
+  system webshop/backend
+    node webshop/backend/postgres1
+  system webshop/frontend</pre>
+</div>
+<p>The left column tells the type of the item shown on the right.</p>
+<p>The four HTTP frontend nodes can be added with a single command using the <tt class="docutils literal"><span class="pre">-n</span> <span class="pre">COUNT</span></tt>
+option:</p>
+<div class="highlight-python"><pre>$ poni add-node "webshop/frontend/http{id}" -n 4
+$ poni list
+    node webshop/backend/postgres1
+    node webshop/frontend/http1
+    node webshop/frontend/http2
+    node webshop/frontend/http3
+    node webshop/frontend/http4</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">-n</span> <span class="pre">4</span></tt> tells Poni that four nodes are to be added. Value ranges can also be given, for
+example <tt class="docutils literal"><span class="pre">-n</span> <span class="pre">5..8</span></tt> will create nodes 5, 6, 7 and 8.</p>
+<p>The <tt class="docutils literal"><span class="pre">{id}</span></tt> in the node name gets replaced with the node number. Any normal Python
+<tt class="docutils literal"><span class="pre">string.format()</span></tt> formatting codes can be used, too. For example, if you wanted two
+digits then <tt class="docutils literal"><span class="pre">http{id:02}</span></tt> would do the job.</p>
+</div>
+<div class="section" id="adding-configs">
+<h2>Adding Configs<a class="headerlink" href="#adding-configs" title="Permalink to this headline">¶</a></h2>
+<p>A Poni &#8220;config&#8221; is a configurable item, often a piece of software, than can be added to
+a node. A config often contains multiple configuration file templates and a bunch of
+settings that will be used in the final configuration files deployed to the nodes. Each
+node can have multiple configs applied to them.</p>
+<p>Our example DB backend uses PostgreSQL 8.4 as the database  so we will call it <tt class="docutils literal"><span class="pre">pg84</span></tt>.
+We can create the config and view it using the <tt class="docutils literal"><span class="pre">-c</span></tt> option:</p>
+<div class="highlight-python"><pre>$ poni add-config postg pg84
+$ poni list -c
+    node webshop/backend/postgres1
+  config webshop/backend/postgres1/pg84
+    node webshop/frontend/http1
+    node webshop/frontend/http2
+    node webshop/frontend/http3
+    node webshop/frontend/http4</pre>
+</div>
+<p>Above we were a bit lazy and only wrote <tt class="docutils literal"><span class="pre">postg</span></tt> above as the target node.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Poni system/node/config arguments are evaluated as regular expressions and will match
+as long as the given pattern appears somewhere in the full name of the target. If there
+are multiple hits, the command will be executed for each of them. Stricter full name
+matching can be enabled by adding the <tt class="docutils literal"><span class="pre">-M</span></tt> option.</p>
+</div>
+<p>We want to deploy a file describing the DB access permissions named <tt class="docutils literal"><span class="pre">pg_hba.conf</span></tt> to
+the backend node:</p>
+<div class="highlight-python"><pre>$ cat &gt; pg_hba.conf &lt;&lt;EOF
+# This the pg_hba.conf for $node.name
+#
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             all                                     trust
+EOF</pre>
+</div>
+<p>Every Poni config needs a <tt class="docutils literal"><span class="pre">plugin.py</span></tt> file that tells Poni what files need to be
+installed and where:</p>
+<div class="highlight-python"><pre>$ cat &gt; plugin.py &lt;&lt;EOF
+from poni import config
+
+class PlugIn(config.PlugIn):
+    def add_actions(self):
+        self.add_file("pg_hba.conf", dest_path="/etc/postgres/8.4/")
+EOF</pre>
+</div>
+<p>The above plugin will install a single file <tt class="docutils literal"><span class="pre">pg_hba.conf</span></tt> into the directory
+<tt class="docutils literal"><span class="pre">/etc/postgres/8.4/</span></tt>.</p>
+<p>Now the files can be added into the existing <tt class="docutils literal"><span class="pre">pg84</span></tt> config:</p>
+<div class="highlight-python"><pre>$ poni update-config pg84 plugin.py pg_hba.conf -v
+poni    INFO    webshop/backend/postgres1/pg84: added 'plugin.py'
+poni    INFO    webshop/backend/postgres1/pg84: added 'pg_hba.conf'</pre>
+</div>
+<p>Now the database node is setup and we can move on to verifying and deployment...</p>
+</div>
+<div class="section" id="verifying-configs">
+<h2>Verifying Configs<a class="headerlink" href="#verifying-configs" title="Permalink to this headline">¶</a></h2>
+<p>Checking that there are no problems rendering any of the configs can be done with the
+<tt class="docutils literal"><span class="pre">verify</span></tt> command:</p>
+<div class="highlight-python"><pre>$ poni verify
+poni    INFO    all [1] files ok</pre>
+</div>
+<p>No errors reported, good. Let&#8217;s see how our <tt class="docutils literal"><span class="pre">pg_hba.conf</span></tt> looks like:</p>
+<div class="highlight-python"><pre>$ poni show
+--- BEGIN webshop/backend/postgres1: dest=/etc/postgres/8.4/pg_hba.conf ---
+# This is the pg_hba.conf for webshop/backend/postgres1
+#
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             all                                     trust
+
+--- END webshop/backend/postgres1: dest=/etc/postgres/8.4/pg_hba.conf ---</pre>
+</div>
+<p>Note that the <tt class="docutils literal"><span class="pre">$node.name</span></tt> template directive got replaced with the name (full path)
+of the node.</p>
+</div>
+<div class="section" id="deploying">
+<h2>Deploying<a class="headerlink" href="#deploying" title="Permalink to this headline">¶</a></h2>
+<p>In order to be able to deploy, Poni needs to know the hostnames of each nodes involved.
+For this exercise we&#8217;ll deploy the files locally instead of copying them over the
+network:</p>
+<div class="highlight-python"><pre>$ poni deploy postgres1
+poni    ERROR   RemoteError: webshop/backend/postgres1: 'host' property not set</pre>
+</div>
+<p>Node and system properties can be adjusted with the <tt class="docutils literal"><span class="pre">set</span></tt> command. We&#8217;ll set it to a
+special value <tt class="docutils literal"><span class="pre">&#64;local</span></tt> that tells Poni to install the files to the local file-system:</p>
+<div class="highlight-python"><pre>$ poni set postgres1 host=@local
+$ poni list postgres1 -p
+    node webshop/backend/postgres1
+    prop     depth:3 host:'@local' index:0</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">list</span></tt> option <tt class="docutils literal"><span class="pre">-p</span></tt> shows node and system properties. In addition to <tt class="docutils literal"><span class="pre">host</span></tt> there
+are a couple of automatically set properties <tt class="docutils literal"><span class="pre">depth</span></tt> (how deep is the node in the
+system hierarchy) and <tt class="docutils literal"><span class="pre">index</span></tt> (tells the location of the node within its sub-system).</p>
+<p>Now deployment can be completed and we&#8217;ll override the target directory for this exercise
+using the <tt class="docutils literal"><span class="pre">--path-prefix</span></tt> argument:</p>
+<div class="highlight-python"><pre>$ poni deploy postgres1 --path-prefix=/tmp
+manager INFO       WROTE webshop/backend/postgres1: /tmp/etc/postgres/8.4/pg_hba.conf
+$ cat /tmp/etc/postgres/8.4/pg_hba.conf
+# This is the pg_hba.conf for webshop/backend/postgres1
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             all                                     trust</pre>
+</div>
+</div>
+<div class="section" id="auditing">
+<h2>Auditing<a class="headerlink" href="#auditing" title="Permalink to this headline">¶</a></h2>
+<p>Checking that the deployed configuration is still up-to-date and intact is simple:</p>
+<div class="highlight-python"><pre>$ poni audit --path-prefix=/tmp
+manager INFO          OK webshop/backend/postgres1: /tmp/etc/postgres/8.4/pg_hba.conf</pre>
+</div>
+<p>Let&#8217;s see what happens if the file is changed:</p>
+<div class="highlight-python"><pre>$ echo hello &gt;&gt; /tmp/etc/postgres/8.4/pg_hba.conf
+$ poni audit --path-prefix=/tmp
+manager WARNING  DIFFERS webshop/backend/postgres1: /tmp/etc/postgres/8.4/pg_hba.conf</pre>
+</div>
+<p>The difference to the proper contents can be viewed by adding the <tt class="docutils literal"><span class="pre">--diff</span></tt> argument:</p>
+<div class="highlight-python"><pre>$ poni audit --path-prefix=/tmp --diff
+manager WARNING  DIFFERS webshop/backend/postgres1: /tmp/etc/postgres/8.4/pg_hba.conf
+--- config TODO:mtime
++++ active 2010-12-04 21:21:58
+@@ -1,3 +1,4 @@
+ # This is the pg_hba.conf for webshop/backend/postgres1
+ # TYPE  DATABASE        USER            ADDRESS                 METHOD
+ local   all             all                                     trust
++hello</pre>
+</div>
+<p>To repair the file, simply run the <tt class="docutils literal"><span class="pre">deploy</span></tt> command again:</p>
+<div class="highlight-python"><pre>$ poni deploy postgres1 --path-prefix=/tmp
+manager INFO       WROTE webshop/backend/postgres1: /tmp/etc/postgres/8.4/pg_hba.conf
+$ poni audit --path-prefix=/tmp --diff
+manager INFO          OK webshop/backend/postgres1: /tmp/etc/postgres/8.4/pg_hba.conf</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting Started with Poni</a><ul>
+<li><a class="reference internal" href="#creating-the-poni-repository">Creating the Poni Repository</a></li>
+<li><a class="reference internal" href="#adding-nodes">Adding Nodes</a></li>
+<li><a class="reference internal" href="#adding-configs">Adding Configs</a></li>
+<li><a class="reference internal" href="#verifying-configs">Verifying Configs</a></li>
+<li><a class="reference internal" href="#deploying">Deploying</a></li>
+<li><a class="reference internal" href="#auditing">Auditing</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Poni&#8217;s documentation!</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/getting-started.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Poni’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Poni v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>
