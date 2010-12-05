@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>System and Node Property Reference &mdash; Poni v0.1 documentation</title>
+    <link rel="stylesheet" href="static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Poni v0.1 documentation" href="index.html" />
+    <link rel="next" title="Cloud Provisioning with Amazon EC2" href="ec2.html" />
+    <link rel="prev" title="Getting Started with Poni" href="getting-started.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Poni v0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>System and Node Property Reference</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="getting-started.html">Getting Started with Poni</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="ec2.html">Cloud Provisioning with Amazon EC2</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="system-and-node-property-reference">
+<h1>System and Node Property Reference<a class="headerlink" href="#system-and-node-property-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="properties-controlled-by-poni">
+<h2>Properties Controlled by Poni<a class="headerlink" href="#properties-controlled-by-poni" title="Permalink to this headline">¶</a></h2>
+<p>The following properties are automatically maintained by Poni:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="38%" />
+<col width="10%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Property</th>
+<th class="head">Description</th>
+<th class="head">Data Type</th>
+<th class="head">Example</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">depth</span></tt></td>
+<td>How many levels deep the node (or system) is in the hierarchy</td>
+<td>integer</td>
+<td><tt class="docutils literal"><span class="pre">1</span></tt> (means: root-level)</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">index</span></tt></td>
+<td>Location  of the node/system in relation to its siblings in the same system</td>
+<td>integer</td>
+<td><tt class="docutils literal"><span class="pre">0</span></tt> (means: first node)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="generic-properties">
+<h2>Generic Properties<a class="headerlink" href="#generic-properties" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="38%" />
+<col width="10%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Property</th>
+<th class="head">Description</th>
+<th class="head">Data Type</th>
+<th class="head">Example</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">host</span></tt></td>
+<td>Host network address</td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">server01.company.com</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">depth</span></tt></td>
+<td>Tells how many levels deep the node (or system) is in the hierarchy</td>
+<td>integer</td>
+<td><tt class="docutils literal"><span class="pre">1</span></tt> (means: root-level)</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">index</span></tt></td>
+<td>Tells the location  of the node/system in relation to its siblings in the same
+system</td>
+<td>integer</td>
+<td><tt class="docutils literal"><span class="pre">0</span></tt> (means: first node)</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">parent</span></tt></td>
+<td>full name of the parent node (if defined)</td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">some/other/node</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">verify</span></tt></td>
+<td>Is verification enabled for this node/system and all of its sub-systems? Set to
+<tt class="docutils literal"><span class="pre">false</span></tt> for e.g. template nodes. <strong>NOTE:</strong> Affects all sub-systems and their
+nodes, too.</td>
+<td>boolean</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt> (verification is enabled) or <tt class="docutils literal"><span class="pre">false</span></tt> (verification is disabled)</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">deploy</span></tt></td>
+<td>Node access method. Default is <tt class="docutils literal"><span class="pre">ssh</span></tt> if not defined with this property.
+<strong>NOTE:</strong> Affects all sub-systems and their nodes, too.</td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">ssh</span></tt> or <tt class="docutils literal"><span class="pre">local</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="amazon-ec2-properties">
+<h2>Amazon EC2 Properties<a class="headerlink" href="#amazon-ec2-properties" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="35%" />
+<col width="3%" />
+<col width="9%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Property</th>
+<th class="head">Description</th>
+<th class="head">Required</th>
+<th class="head">Data Type</th>
+<th class="head">Example</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">cloud.provider</span></tt></td>
+<td>Selects the cloud provider, must be <tt class="docutils literal"><span class="pre">aws-ec2</span></tt></td>
+<td><strong>YES</strong></td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">aws-ec2</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">cloud.image</span></tt></td>
+<td>The &#8220;AMI&#8221; code of the VM image</td>
+<td><strong>YES</strong></td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">ami-daf615b3</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">cloud.kernel</span></tt></td>
+<td>The &#8220;AKI&#8221; code of the kernel</td>
+<td>NO</td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">aki-6eaa4907</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">cloud.ramdisk</span></tt></td>
+<td>The &#8220;ARI&#8221; code of the ramdisk</td>
+<td>NO</td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">ari-42b95a2b</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">cloud.region</span></tt></td>
+<td>AWS EC2 data-center</td>
+<td><strong>YES</strong></td>
+<td>string</td>
+<td>one of <tt class="docutils literal"><span class="pre">us-west-1</span></tt>, <tt class="docutils literal"><span class="pre">us-east-1</span></tt>, <tt class="docutils literal"><span class="pre">eu-west-1</span></tt> or <tt class="docutils literal"><span class="pre">ap-southeast-1</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">cloud.type</span></tt></td>
+<td>Instance type</td>
+<td>NO</td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">m1.small</span></tt>, <tt class="docutils literal"><span class="pre">m2.xlarge</span></tt>, etc.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">cloud.key-pair</span></tt></td>
+<td>Name of the EC2 data-center specific key-pair to use <strong>without</strong> the <tt class="docutils literal"><span class="pre">.pem</span></tt>
+suffix</td>
+<td><strong>YES</strong></td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">my-key-pair</span></tt> (in case the file you have is <tt class="docutils literal"><span class="pre">my-key-pair.pem</span></tt>)</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">instance</span></tt></td>
+<td>Poni updates the id of the instance here once it has been started</td>
+<td>n/a</td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">i-4692cd2b</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Many EC2 instance properties cannot be controlled yet, for example: security groups,
+user data, addressing types, placement groups, monitoring, subnets or block devices.</p>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="getting-started.html">Getting Started with Poni</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="ec2.html">Cloud Provisioning with Amazon EC2</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2010, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>
