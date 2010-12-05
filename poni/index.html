@@ -8,8 +8,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Welcome to Poni’s documentation! &mdash; Poni v0.1 documentation</title>
-    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -22,28 +23,27 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
     <link rel="top" title="Poni v0.1 documentation" href="#" />
     <link rel="next" title="Getting Started with Poni" href="getting-started.html" /> 
   </head>
   <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="getting-started.html" title="Getting Started with Poni"
-             accesskey="N">next</a> |</li>
-        <li><a href="#">Poni v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+      <div class="header"><h1 class="heading"><a href="#">
+          <span>Poni v0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Welcome to Poni’s documentation!</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        <a class="uplink" href="#">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="getting-started.html">Getting Started with Poni</a>&#160;&#160;»
+        </p>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
-            
+      </div>
+      <div class="content">
+        
+        
   <div class="section" id="welcome-to-poni-s-documentation">
 <h1>Welcome to Poni&#8217;s documentation!<a class="headerlink" href="#welcome-to-poni-s-documentation" title="Permalink to this headline">¶</a></h1>
 <p>Poni is a systems management tool for defining, deploying and verifying complex
@@ -78,74 +78,51 @@ files, making it easy to wire multiple nodes together</li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#auditing">Auditing</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="ec2.html">Cloud Provisioning with Amazon EC2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#pre-requisites">Pre-requisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#configuring-nodes">Configuring Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#starting-nodes">Starting Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#checking-instance-status">Checking Instance Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ec2.html#terminating-instances">Terminating Instances</a></li>
 </ul>
-</div>
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="remote.html">Node Remote Control</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="remote.html#remote-execution-of-shell-commands">Remote Execution of Shell Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remote.html#remote-interactive-shell">Remote Interactive Shell</a></li>
 </ul>
-</div>
-
-
-          </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to Poni&#8217;s documentation!</a><ul>
-<li><a class="reference internal" href="#overview">Overview</a></li>
-<li><a class="reference internal" href="#contents">Contents</a><ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vc.html">Repository Version Control</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vc.html#initializing-version-control">Initializing Version Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vc.html#committing-changes">Committing Changes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/puppet.html">Example: Poni Puppet Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/puppet.html#preparations">Preparations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/puppet.html#creating-the-system">Creating the System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/puppet.html#provisioning-the-vms">Provisioning the VMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/puppet.html#deployment">Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/puppet.html#bootstrap-the-puppetmaster">Bootstrap the Puppetmaster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/puppet.html#bootstrap-puppet-agents">Bootstrap Puppet Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/puppet.html#cleanup">Cleanup</a></li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
-  <h4>Next topic</h4>
-  <p class="topless"><a href="getting-started.html"
-                        title="next chapter">Getting Started with Poni</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="sources/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
+</div>
+</div>
+
+
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="getting-started.html" title="Getting Started with Poni"
-             >next</a> |</li>
-        <li><a href="#">Poni v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
+      <div class="bottomnav">
+      
+        <p>
+        <a class="uplink" href="#">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="getting-started.html">Getting Started with Poni</a>&#160;&#160;»
+        </p>
+
+      </div>
+
     <div class="footer">
         &copy; Copyright 2010, Mika Eloranta.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.

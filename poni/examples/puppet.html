@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example: Poni Puppet Deployment &mdash; Poni v0.1 documentation</title>
+    <link rel="stylesheet" href="../static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/print.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/theme_extras.js"></script>
+    <link rel="top" title="Poni v0.1 documentation" href="../index.html" />
+    <link rel="prev" title="Repository Version Control" href="../vc.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="../index.html">
+          <span>Poni v0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Example: Poni Puppet Deployment</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="../vc.html">Repository Version Control</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="example-poni-puppet-deployment">
+<h1>Example: Poni Puppet Deployment<a class="headerlink" href="#example-poni-puppet-deployment" title="Permalink to this headline">¶</a></h1>
+<p>The files for this example are in the <tt class="docutils literal"><span class="pre">examples/puppet</span></tt> directory.</p>
+<div class="section" id="preparations">
+<h2>Preparations<a class="headerlink" href="#preparations" title="Permalink to this headline">¶</a></h2>
+<p>First, setup the AWS keys in environment variables:</p>
+<div class="highlight-python"><pre>export AWS_ACCESS_KEY_ID=&lt;access key&gt;
+export AWS_SECRET_ACCESS_KEY=&lt;secret key&gt;</pre>
+</div>
+<p>Edit <tt class="docutils literal"><span class="pre">inst-puppet.sh</span></tt> and replace your desired AWS key-pair name as the <tt class="docutils literal"><span class="pre">AWS_KEYPAIR</span></tt> value. NOTE: the name <strong>MUST NOT</strong> contain the trailing <tt class="docutils literal"><span class="pre">.pem</span></tt>.</p>
+<p>Drop your AWS key-pair to <tt class="docutils literal"><span class="pre">$HOME/.ssh/&lt;aws-key-pair-name&gt;.pem</span></tt></p>
+</div>
+<div class="section" id="creating-the-system">
+<h2>Creating the System<a class="headerlink" href="#creating-the-system" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">inst-puppet.sh</span></tt> contains the commands needed to create the Poni system for the
+project:</p>
+<div class="highlight-python"><pre>$ ./inst-puppet.sh
+create system
+&gt; init
+&gt; add-node template/ec2-deb6
+&gt; add-config template/ec2-deb6 hacks
+&gt; set template$ verify=bool:false
+&gt; add-node software
+&gt; set software$ verify=bool:false
+&gt; add-config software puppet-master-v1.0
+&gt; add-config software puppet-agent-v1.0
+&gt; add-node puppet/master -i template/ec2-deb6
+&gt; add-config puppet/master puppet-master -i software/puppet-master-v1.0
+&gt; set puppet/master cloud.provider=aws-ec2 cloud.region=us-east-1 cloud.image=ami-daf615b3 cloud.kernel=aki-6eaa4907 cloud.ramdisk=ari-42b95a2b cloud.type=m1.small cloud.key-pair=aws-mel user=root
+&gt; add-node nodes/demo/server{id:02} -n2 -i template/ec2-deb6
+&gt; add-config nodes/demo/server puppet-agent -i software/puppet-agent-v1.0
+&gt; set nodes/demo/server cloud.provider=aws-ec2 cloud.region=us-east-1 cloud.image=ami-daf615b3 cloud.kernel=aki-6eaa4907 cloud.ramdisk=ari-42b95a2b cloud.type=m1.small cloud.key-pair=aws-mel user=root</pre>
+</div>
+<p>Let&#8217;s see what got created:</p>
+<div class="highlight-python"><pre>$ poni list -stci
+  system nodes
+  system     demo
+    node         server01 &lt;= template/ec2-deb6
+  config             puppet-agent &lt;= software/puppet-agent-v1.0
+    node         server02 &lt;= template/ec2-deb6
+  config             puppet-agent &lt;= software/puppet-agent-v1.0
+  system puppet
+    node     master &lt;= template/ec2-deb6
+  config         puppet-master &lt;= software/puppet-master-v1.0
+    node software
+  config     puppet-master-v1.0
+  config     puppet-agent-v1.0
+  system template
+    node     ec2-deb6
+  config         hacks</pre>
+</div>
+<p>View node cloud properties (not provisioned yet!):</p>
+<div class="highlight-python"><pre>$ poni list -o
+    node nodes/demo/server01
+   cloud ramdisk=u'ari-42b95a2b', kernel=u'aki-6eaa4907', key-pair=u'aws-mel', image=u'ami-daf615b3', provider=u'aws-ec2', type=u'm1.small', region=u'us-east-1'
+    node nodes/demo/server02
+   cloud ramdisk=u'ari-42b95a2b', kernel=u'aki-6eaa4907', key-pair=u'aws-mel', image=u'ami-daf615b3', provider=u'aws-ec2', type=u'm1.small', region=u'us-east-1'
+    node puppet/master
+   cloud ramdisk=u'ari-42b95a2b', kernel=u'aki-6eaa4907', key-pair=u'aws-mel', image=u'ami-daf615b3', provider=u'aws-ec2', type=u'm1.small', region=u'us-east-1'
+    node software
+    node template/ec2-deb6</pre>
+</div>
+</div>
+<div class="section" id="provisioning-the-vms">
+<h2>Provisioning the VMs<a class="headerlink" href="#provisioning-the-vms" title="Permalink to this headline">¶</a></h2>
+<p>Provision VM instances from the cloud provider:</p>
+<div class="highlight-python"><pre>$ poni cloud init . --wait
+poni    INFO    nodes/demo/server01: initialized: ramdisk=u'ari-42b95a2b', kernel=u'aki-6eaa4907', key-pair=u'aws-mel', instance=u'i-2318664e', provider=u'aws-ec2', region=u'us-east-1', type=u'm1.small', image=u'ami-daf615b3'
+poni    INFO    nodes/demo/server02: initialized: ramdisk=u'ari-42b95a2b', kernel=u'aki-6eaa4907', key-pair=u'aws-mel', instance=u'i-3f186652', provider=u'aws-ec2', region=u'us-east-1', type=u'm1.small', image=u'ami-daf615b3'
+poni    INFO    puppet/master: initialized: ramdisk=u'ari-42b95a2b', kernel=u'aki-6eaa4907', key-pair=u'aws-mel', instance=u'i-39186654', provider=u'aws-ec2', region=u'us-east-1', type=u'm1.small', image=u'ami-daf615b3'
+aws-ec2 INFO    [0/3] instances started, waiting...
+aws-ec2 INFO    [0/3] instances started, waiting...
+aws-ec2 INFO    [0/3] instances started, waiting...
+aws-ec2 INFO    [0/3] instances started, waiting...
+aws-ec2 INFO    [0/3] instances started, waiting...
+aws-ec2 INFO    [2/3] instances started, waiting...
+aws-ec2 INFO    [2/3] instances started, waiting...
+poni    INFO    nodes/demo/server01 update: host=u'ec2-174-129-167-134.compute-1.amazonaws.com', private={'ip': u'10.204.30.251', 'dns': u'ip-10-204-30-251.ec2.internal'}
+poni    INFO    nodes/demo/server02 update: host=u'ec2-184-72-190-127.compute-1.amazonaws.com', private={'ip': u'10.244.14.228', 'dns': u'ip-10-244-14-228.ec2.internal'}
+poni    INFO    puppet/master update: host=u'ec2-75-101-214-83.compute-1.amazonaws.com', private={'ip': u'10.244.14.4', 'dns': u'ip-10-244-14-4.ec2.internal'}</pre>
+</div>
+<p>Query cloud instances statuses:</p>
+<div class="highlight-python"><pre>$ poni list -qt
+    node         server01
+  status             running
+    node         server02
+  status             running
+    node     master
+  status         running
+    node software
+    node     ec2-deb6</pre>
+</div>
+</div>
+<div class="section" id="deployment">
+<h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h2>
+<p>Deploy the bootstrap files:</p>
+<div class="highlight-python"><pre>$ poni deploy
+manager INFO       WROTE nodes/demo/server01: /root/deb6-upgrade.sh
+manager INFO       WROTE nodes/demo/server01: /root/inst-puppet-agent.sh
+manager INFO       WROTE nodes/demo/server02: /root/deb6-upgrade.sh
+manager INFO       WROTE nodes/demo/server02: /root/inst-puppet-agent.sh
+manager INFO       WROTE puppet/master: /root/deb6-upgrade.sh
+manager INFO       WROTE puppet/master: /root/inst-puppet-master.sh
+manager ERROR   puppet/master: /etc/puppet/manifests/site.pp: IOError: [Errno 2] No such file</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">deploying the puppetmaster <tt class="docutils literal"><span class="pre">site.pp</span></tt> manifest fails because puppetmaster has not yet
+been installed.</p>
+</div>
+</div>
+<div class="section" id="bootstrap-the-puppetmaster">
+<h2>Bootstrap the Puppetmaster<a class="headerlink" href="#bootstrap-the-puppetmaster" title="Permalink to this headline">¶</a></h2>
+<p>Install puppetmaster on the master node:</p>
+<div class="highlight-python"><pre>$ poni remote exec master ./inst-puppet-master.sh
+Get:1 http://http.us.debian.org squeeze Release.gpg [835B]
+Ign http://http.us.debian.org squeeze/main Translation-en_US
+Ign http://http.us.debian.org squeeze/contrib Translation-en_US
+
+...
+
+Starting puppet master.
+Starting puppet queue.
+Setting up rake (0.8.7-2) ...
+Setting up rails-ruby1.8 (2.3.5-1.1) ...
+Setting up rails (2.3.5-1.1) ...
+Setting up ruby1.8-dev (1.8.7.302-2) ...
+Setting up unzip (6.0-4) ...
+Setting up zip (3.0-3) ...</pre>
+</div>
+<p>Re-deploy the master configuration:</p>
+<div class="highlight-python"><pre>$ poni deploy master
+manager INFO       WROTE puppet/master: /etc/puppet/manifests/site.pp</pre>
+</div>
+<p>Review the automatically created puppetmaster <tt class="docutils literal"><span class="pre">site.pp</span></tt> manifest:</p>
+<div class="highlight-python"><pre>$ poni remote exec master "cat /etc/puppet/manifests/site.pp"
+node 'default' {
+  notice 'no specific rules for node'
+}
+
+class nginx {
+  package { nginx:
+    ensure =&gt; latest
+  }
+
+#  service { nginx:
+#    running =&gt; true
+#  }
+}
+
+node 'ip-10-204-30-251.ec2.internal' {
+  # poni node: nodes/demo/server01
+  file { "/etc/sudoers":
+      owner =&gt; root, group =&gt; root, mode =&gt; 440
+  }
+
+  include nginx
+}
+node 'ip-10-244-14-228.ec2.internal' {
+  # poni node: nodes/demo/server02
+  file { "/etc/sudoers":
+      owner =&gt; root, group =&gt; root, mode =&gt; 440
+  }
+
+  include nginx
+}</pre>
+</div>
+</div>
+<div class="section" id="bootstrap-puppet-agents">
+<h2>Bootstrap Puppet Agents<a class="headerlink" href="#bootstrap-puppet-agents" title="Permalink to this headline">¶</a></h2>
+<p>Deploy puppet agents on the server nodes:</p>
+<div class="highlight-python"><pre>$ poni remote exec demo/server -v ./inst-puppet-agent.sh
+--- BEGIN nodes/demo/server01 (ec2-174-129-167-134.compute-1.amazonaws.com): exec: './inst-puppet-agent.sh' ---
+Get:1 http://http.us.debian.org squeeze Release.gpg [835B]
+Ign http://http.us.debian.org squeeze/main Translation-en_US
+Ign http://http.us.debian.org squeeze/contrib Translation-en_US
+Ign http://http.us.debian.org squeeze/non-free Translation-en_US
+
+...
+
+Setting up ruby (4.5) ...
+Starting puppet agent.
+--- END nodes/demo/server01 (ec2-174-129-167-134.compute-1.amazonaws.com): exec: './inst-puppet-agent.sh' ---
+
+--- BEGIN nodes/demo/server02 (ec2-184-72-190-127.compute-1.amazonaws.com): exec: './inst-puppet-agent.sh' ---
+Get:1 http://http.us.debian.org squeeze Release.gpg [835B]
+Ign http://http.us.debian.org squeeze/main Translation-en_US
+
+...
+
+Starting puppet agent
+puppet not configured to start, please edit /etc/default/puppet to enable
+.
+Setting up ruby (4.5) ...
+Starting puppet agent.
+--- END nodes/demo/server02 (ec2-184-72-190-127.compute-1.amazonaws.com): exec: './inst-puppet-agent.sh' ---</pre>
+</div>
+<p>Both the puppetmaster and the agents should now be running.</p>
+<p>Check the certificate signing requests on the puppetmaster node:</p>
+<div class="highlight-python"><pre>$ poni remote exec master "puppetca --list"
+ip-10-204-30-251.ec2.internal
+ip-10-244-14-228.ec2.internal</pre>
+</div>
+<p>Sign all the requests:</p>
+<div class="highlight-python"><pre>$ poni remote exec master "puppetca --sign --all"
+notice: Signed certificate request for ip-10-204-30-251.ec2.internal
+notice: Removing file Puppet::SSL::CertificateRequest ip-10-204-30-251.ec2.internal at '/var/lib/puppet/ssl/ca/requests/ip-10-204-30-251.ec2.internal.pem'
+notice: Signed certificate request for ip-10-244-14-228.ec2.internal
+notice: Removing file Puppet::SSL::CertificateRequest ip-10-244-14-228.ec2.internal at '/var/lib/puppet/ssl/ca/requests/ip-10-244-14-228.ec2.internal.pem'</pre>
+</div>
+<p>Check puppet activity on the agent nodes:</p>
+<div class="highlight-python"><pre>$ poni remote exec demo/server "grep puppet /var/log/syslog" -v
+
+--- BEGIN nodes/demo/server01 (ec2-174-129-167-134.compute-1.amazonaws.com): exec: 'grep puppet /var/log/syslog' ---
+Nov 23 20:55:29 ip-10-204-30-251 puppet-agent[1762]: Reopening log files
+Nov 23 20:57:31 ip-10-204-30-251 puppet-agent[1762]: Did not receive certificate
+Nov 23 20:59:31 ip-10-204-30-251 puppet-agent[1762]: Did not receive certificate
+Nov 23 21:01:31 ip-10-204-30-251 puppet-agent[1762]: Starting Puppet client version 2.6.2
+--- END nodes/demo/server01 (ec2-174-129-167-134.compute-1.amazonaws.com): exec: 'grep puppet /var/log/syslog' ---
+
+--- BEGIN nodes/demo/server02 (ec2-184-72-190-127.compute-1.amazonaws.com): exec: 'grep puppet /var/log/syslog' ---
+Nov 23 20:57:59 ip-10-244-14-228 puppet-agent[1762]: Reopening log files
+Nov 23 21:00:01 ip-10-244-14-228 puppet-agent[1762]: Did not receive certificate
+--- END nodes/demo/server02 (ec2-184-72-190-127.compute-1.amazonaws.com): exec: 'grep puppet /var/log/syslog' ---</pre>
+</div>
+<p>Restart puppet agent to speed up the configuration process:</p>
+<div class="highlight-python"><pre>$ poni remote exec demo/server "/etc/init.d/puppet restart"
+Restarting puppet agent.
+Restarting puppet agent.</pre>
+</div>
+<p>Re-check the puppet activity from syslog:</p>
+<div class="highlight-python"><pre>$ poni remote exec demo/server "grep puppet /var/log/syslog" -v
+--- BEGIN nodes/demo/server01 (ec2-174-129-167-134.compute-1.amazonaws.com): exec: 'grep puppet /var/log/syslog' ---
+Nov 23 20:55:29 ip-10-204-30-251 puppet-agent[1762]: Reopening log files
+Nov 23 20:57:31 ip-10-204-30-251 puppet-agent[1762]: Did not receive certificate
+Nov 23 20:59:31 ip-10-204-30-251 puppet-agent[1762]: Did not receive certificate
+Nov 23 21:01:31 ip-10-204-30-251 puppet-agent[1762]: Starting Puppet client version 2.6.2
+Nov 23 21:01:36 ip-10-204-30-251 puppet-agent[1762]: (/Stage[main]/Nginx/Package[nginx]/ensure) ensure changed 'purged' to 'latest'
+Nov 23 21:01:36 ip-10-204-30-251 puppet-agent[1762]: Finished catalog run in 3.30 seconds
+Nov 23 21:02:50 ip-10-204-30-251 puppet-agent[1762]: Caught TERM; calling stop
+Nov 23 21:02:53 ip-10-204-30-251 puppet-agent[1936]: Reopening log files
+Nov 23 21:02:53 ip-10-204-30-251 puppet-agent[1936]: Starting Puppet client version 2.6.2
+Nov 23 21:02:54 ip-10-204-30-251 puppet-agent[1936]: Finished catalog run in 0.29 seconds
+--- END nodes/demo/server01 (ec2-174-129-167-134.compute-1.amazonaws.com): exec: 'grep puppet /var/log/syslog' ---
+
+--- BEGIN nodes/demo/server02 (ec2-184-72-190-127.compute-1.amazonaws.com): exec: 'grep puppet /var/log/syslog' ---
+Nov 23 20:57:59 ip-10-244-14-228 puppet-agent[1762]: Reopening log files
+Nov 23 21:00:01 ip-10-244-14-228 puppet-agent[1762]: Did not receive certificate
+Nov 23 21:02:01 ip-10-244-14-228 puppet-agent[1762]: Starting Puppet client version 2.6.2
+Nov 23 21:02:05 ip-10-244-14-228 puppet-agent[1762]: (/Stage[main]/Nginx/Package[nginx]/ensure) ensure changed 'purged' to 'latest'
+Nov 23 21:02:05 ip-10-244-14-228 puppet-agent[1762]: Finished catalog run in 3.15 seconds
+Nov 23 21:02:57 ip-10-244-14-228 puppet-agent[1762]: Caught TERM; calling stop
+Nov 23 21:02:59 ip-10-244-14-228 puppet-agent[1931]: Reopening log files
+Nov 23 21:03:00 ip-10-244-14-228 puppet-agent[1931]: Starting Puppet client version 2.6.2
+Nov 23 21:03:01 ip-10-244-14-228 puppet-agent[1931]: Finished catalog run in 0.24 seconds
+--- END nodes/demo/server02 (ec2-184-72-190-127.compute-1.amazonaws.com): exec: 'grep puppet /var/log/syslog' ---</pre>
+</div>
+<p>Puppet agent seems to have configured both nodes according to the site.pp manifests.</p>
+<p><strong>Done!</strong></p>
+</div>
+<div class="section" id="cleanup">
+<h2>Cleanup<a class="headerlink" href="#cleanup" title="Permalink to this headline">¶</a></h2>
+<p>...finally terminate the cloud instances and verify that they are stopped:</p>
+<div class="highlight-python"><pre>$ poni cloud terminate .
+poni    INFO    3 instances terminated
+$ poni list -q
+    node nodes/demo/server01
+  status terminated
+    node nodes/demo/server02
+  status terminated
+    node puppet/master
+  status terminated
+    node software
+    node template/ec2-deb6</pre>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="../vc.html">Repository Version Control</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2010, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>
