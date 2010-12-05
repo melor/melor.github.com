@@ -223,16 +223,17 @@ of the node.</p>
 <h2>Deploying<a class="headerlink" href="#deploying" title="Permalink to this headline">¶</a></h2>
 <p>In order to be able to deploy, Poni needs to know the hostnames of each nodes involved.
 For this exercise we&#8217;ll deploy the files locally instead of copying them over the
-network:</p>
+network. By default Poni attempts an SSH based deployment:</p>
 <div class="highlight-python"><pre>$ poni deploy postgres1
 poni    ERROR   RemoteError: webshop/backend/postgres1: 'host' property not set</pre>
 </div>
-<p>Node and system properties can be adjusted with the <tt class="docutils literal"><span class="pre">set</span></tt> command. We&#8217;ll set it to a
-special value <tt class="docutils literal"><span class="pre">&#64;local</span></tt> that tells Poni to install the files to the local file-system:</p>
-<div class="highlight-python"><pre>$ poni set postgres1 host=@local
+<p>Node and system properties can be adjusted with the <tt class="docutils literal"><span class="pre">set</span></tt> command. We&#8217;ll set a special
+property <tt class="docutils literal"><span class="pre">deploy</span></tt> to the value <tt class="docutils literal"><span class="pre">local</span></tt> that tells Poni to install the files to the
+local file-system:</p>
+<div class="highlight-python"><pre>$ poni set postgres1 deploy=local
 $ poni list postgres1 -p
     node webshop/backend/postgres1
-    prop     depth:3 host:'@local' index:0</pre>
+    prop     deploy:'local' depth:3 host:'' index:0</pre>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">list</span></tt> option <tt class="docutils literal"><span class="pre">-p</span></tt> shows node and system properties. In addition to <tt class="docutils literal"><span class="pre">host</span></tt> there
 are a couple of automatically set properties <tt class="docutils literal"><span class="pre">depth</span></tt> (how deep is the node in the
