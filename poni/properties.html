@@ -73,7 +73,8 @@
 <td><tt class="docutils literal"><span class="pre">1</span></tt> (means: root-level)</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">index</span></tt></td>
-<td>Location  of the node/system in relation to its siblings in the same system</td>
+<td>Location  of the node/system in relation to its siblings in the same
+system</td>
 <td>integer</td>
 <td><tt class="docutils literal"><span class="pre">0</span></tt> (means: first node)</td>
 </tr>
@@ -98,36 +99,37 @@
 </thead>
 <tbody valign="top">
 <tr><td><tt class="docutils literal"><span class="pre">host</span></tt></td>
-<td>Host network address</td>
+<td>Host network address (used with SSH-based access)</td>
 <td>string</td>
 <td><tt class="docutils literal"><span class="pre">server01.company.com</span></tt></td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">depth</span></tt></td>
-<td>Tells how many levels deep the node (or system) is in the hierarchy</td>
-<td>integer</td>
-<td><tt class="docutils literal"><span class="pre">1</span></tt> (means: root-level)</td>
+<tr><td><tt class="docutils literal"><span class="pre">user</span></tt></td>
+<td>Username for accessing the host (used with SSH-based access)</td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">root</span></tt></td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">index</span></tt></td>
-<td>Tells the location  of the node/system in relation to its siblings in the same
-system</td>
-<td>integer</td>
-<td><tt class="docutils literal"><span class="pre">0</span></tt> (means: first node)</td>
+<tr><td><tt class="docutils literal"><span class="pre">ssh-key</span></tt></td>
+<td>Filename of the SSH key used to access the host as <tt class="docutils literal"><span class="pre">user</span></tt></td>
+<td>string</td>
+<td><tt class="docutils literal"><span class="pre">id_rsa</span></tt></td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">parent</span></tt></td>
-<td>full name of the parent node (if defined)</td>
+<td>Full name of the parent node (if defined), set automatically when node
+is created with <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">add-node</span> <span class="pre">CHILD</span> <span class="pre">-i</span> <span class="pre">PARENT</span></tt></td>
 <td>string</td>
 <td><tt class="docutils literal"><span class="pre">some/other/node</span></tt></td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">verify</span></tt></td>
-<td>Is verification enabled for this node/system and all of its sub-systems? Set to
-<tt class="docutils literal"><span class="pre">false</span></tt> for e.g. template nodes. <strong>NOTE:</strong> Affects all sub-systems and their
-nodes, too.</td>
+<td>Is verification enabled for this node/system and all of its
+sub-systems? Set to <tt class="docutils literal"><span class="pre">false</span></tt> for e.g. template nodes. <strong>NOTE:</strong>
+Affects all sub-systems and their nodes, too.</td>
 <td>boolean</td>
-<td><tt class="docutils literal"><span class="pre">true</span></tt> (verification is enabled) or <tt class="docutils literal"><span class="pre">false</span></tt> (verification is disabled)</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt> (verification is enabled) or <tt class="docutils literal"><span class="pre">false</span></tt> (verification is
+disabled)</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">deploy</span></tt></td>
-<td>Node access method. Default is <tt class="docutils literal"><span class="pre">ssh</span></tt> if not defined with this property.
-<strong>NOTE:</strong> Affects all sub-systems and their nodes, too.</td>
+<td>Node access method. Default is <tt class="docutils literal"><span class="pre">ssh</span></tt> if not defined with this
+property. <strong>NOTE:</strong> Affects all sub-systems and their nodes, too.</td>
 <td>string</td>
 <td><tt class="docutils literal"><span class="pre">ssh</span></tt> or <tt class="docutils literal"><span class="pre">local</span></tt></td>
 </tr>
@@ -190,8 +192,8 @@ nodes, too.</td>
 <td><tt class="docutils literal"><span class="pre">m1.small</span></tt>, <tt class="docutils literal"><span class="pre">m2.xlarge</span></tt>, etc.</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">cloud.key-pair</span></tt></td>
-<td>Name of the EC2 data-center specific key-pair to use <strong>without</strong> the <tt class="docutils literal"><span class="pre">.pem</span></tt>
-suffix</td>
+<td>Name of the EC2 data-center specific key-pair to use <strong>without</strong> the
+<tt class="docutils literal"><span class="pre">.pem</span></tt> suffix</td>
 <td><strong>YES</strong></td>
 <td>string</td>
 <td><tt class="docutils literal"><span class="pre">my-key-pair</span></tt> (in case the file you have is <tt class="docutils literal"><span class="pre">my-key-pair.pem</span></tt>)</td>
@@ -206,8 +208,9 @@ suffix</td>
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Many EC2 instance properties cannot be controlled yet, for example: security groups,
-user data, addressing types, placement groups, monitoring, subnets or block devices.</p>
+<p class="last">Many EC2 instance properties cannot be controlled yet, for example: security
+groups, user data, addressing types, placement groups, monitoring, subnets
+or block devices.</p>
 </div>
 </div>
 </div>
