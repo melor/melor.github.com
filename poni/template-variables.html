@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Template Variables and Functions &mdash; Poni v0.1 documentation</title>
+    <link rel="stylesheet" href="static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Poni v0.1 documentation" href="index.html" />
+    <link rel="next" title="Cloud Provisioning with Amazon EC2" href="ec2.html" />
+    <link rel="prev" title="System and Node Property Reference" href="properties.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Poni v0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Template Variables and Functions</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="properties.html">System and Node Property Reference</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="ec2.html">Cloud Provisioning with Amazon EC2</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="template-variables-and-functions">
+<h1>Template Variables and Functions<a class="headerlink" href="#template-variables-and-functions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<p>The following variables are accessible from templates:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="30%" />
+<col width="20%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Variable</th>
+<th class="head">Description</th>
+<th class="head">Data Type</th>
+<th class="head">Example Usage</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">node</span></tt></td>
+<td>Node properties</td>
+<td><tt class="docutils literal"><span class="pre">poni.core.Node</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">$node.private.dns</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">settings</span></tt></td>
+<td>Config settings (with all settings layers applied)</td>
+<td>dict</td>
+<td><tt class="docutils literal"><span class="pre">$settings.my_server.http_port</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">s</span></tt></td>
+<td><strong>deprecated</strong> Use <tt class="docutils literal"><span class="pre">settings</span></tt> instead</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">system</span></tt></td>
+<td>System properties of the current node&#8217;s system</td>
+<td><tt class="docutils literal"><span class="pre">poni.core.System</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">$system.sub_count</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">config</span></tt></td>
+<td>Config properties</td>
+<td><tt class="docutils literal"><span class="pre">poni.core.Config</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">$system.get(&quot;parent&quot;,</span> <span class="pre">&quot;orphan!&quot;)</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">plugin</span></tt></td>
+<td>Current config&#8217;s plug-in object. Allows e.g. calling custom methods
+defined in your <tt class="docutils literal"><span class="pre">plugin.py</span></tt> file.</td>
+<td><tt class="docutils literal"><span class="pre">poni.core.PlugIn</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">$plugin.my_custom_method($node,</span> <span class="pre">&quot;hello&quot;)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>The following functions are accessible from templates:</p>
+<dl class="function">
+<dt id="find">
+<tt class="descname">find</tt><big>(</big><em>pattern</em>, <em>nodes=True</em>, <em>systems=False</em>, <em>full_match=False</em><big>)</big><a class="headerlink" href="#find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find nodes and/or systems matching the given search pattern.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pattern</strong> &#8211; Regular expression node path pattern</li>
+<li><strong>nodes</strong> &#8211; Returns nodes if True</li>
+<li><strong>systems</strong> &#8211; Returns systems if True</li>
+<li><strong>full_match</strong> &#8211; Require full regexp match instead of default sub-string
+match</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">generator object returning Node objects</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example usage:</p>
+<div class="highlight-python"><pre>#for $node in $find("webshop/frontend")
+  $node.name has address $node.host
+#end for</pre>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="find_config">
+<tt class="descname">find_config</tt><big>(</big><em>pattern</em>, <em>all_configs=False</em>, <em>full_match=False</em><big>)</big><a class="headerlink" href="#find_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find configs matching given pattern.</p>
+<p>A double-backslash combination in the pattern signifies &#8220;anything&#8221;, i.e.
+<tt class="docutils literal"><span class="pre">//foo</span></tt> will find all <tt class="docutils literal"><span class="pre">foo</span></tt> configs in the entire system and
+<tt class="docutils literal"><span class="pre">bar//baz</span></tt> will find all <tt class="docutils literal"><span class="pre">baz</span></tt> configs under the <tt class="docutils literal"><span class="pre">bar</span></tt> system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pattern</strong> &#8211; Regular expression config path pattern.</li>
+<li><strong>all_configs</strong> &#8211; Returns also inherited configs if True</li>
+<li><strong>full_match</strong> &#8211; Require full regexp match instead of default sub-string
+match</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">generator object returning <tt class="docutils literal"><span class="pre">(node,</span> <span class="pre">config)</span></tt> pairs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example usage:</p>
+<div class="highlight-python"><pre># find all "http-server" configs under the entire "webshop" system:
+#for $node, $conf in $find_config("webshop//http-server", all_configs=True)
+  $node.name has $conf.name at port $conf.settings.server_port
+#end for</pre>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="get_node">
+<tt class="descname">get_node</tt><big>(</big><em>pattern</em><big>)</big><a class="headerlink" href="#get_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return exactly one node that matches the pattern. An error is raise if
+zero or more than one nodes match the pattern.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pattern</strong> &#8211; Regular expression node path pattern.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Node object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="get_system">
+<tt class="descname">get_system</tt><big>(</big><em>pattern</em><big>)</big><a class="headerlink" href="#get_system" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return exactly one system that matches the pattern. An error is raise if
+zero or more than one systems match the pattern.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pattern</strong> &#8211; Regular expression system path pattern.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">System object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="get_config">
+<tt class="descname">get_config</tt><big>(</big><em>pattern</em><big>)</big><a class="headerlink" href="#get_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return exactly one config that matches the pattern. An error is raise if
+zero or more than one configs match the pattern.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pattern</strong> &#8211; Regular expression system/node/config path pattern.</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Config object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="edge">
+<tt class="descname">edge</tt><big>(</big><em>bucket_name</em>, <em>dest_node</em>, <em>dest_config</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a directed graph edge as a <tt class="docutils literal"><span class="pre">dict</span></tt> object into a bucket. This can be
+used to, for example, automatically collect information about network
+connections between nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bucket_name</strong> (<em>string</em>) &#8211; Bucket name</li>
+<li><strong>dest_node</strong> (<tt class="docutils literal"><span class="pre">poni.core.Node</span></tt>) &#8211; Edge destination node</li>
+<li><strong>dest_config</strong> (<tt class="docutils literal"><span class="pre">poni.core.Config</span></tt>) &#8211; Edge destination config</li>
+<li><strong>kwargs</strong> &#8211; Extra information to store in the <tt class="docutils literal"><span class="pre">dict</span></tt> object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example usage:</p>
+<div class="highlight-python"><pre>#for $db_node, $db_config in $find_config("webshop//pg84")
+  $edge("tcp", $db_node, $db_config, protocol="sql", port=$db_config.settings.db_server_port)#slurp
+#end for</pre>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="bucket">
+<tt class="descname">bucket</tt><big>(</big><em>bucket_name</em><big>)</big><a class="headerlink" href="#bucket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a bucket object for accessing dynamically collected data during
+the template rendering process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bucket_name</strong> (<em>string</em>) &#8211; Bucket name</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="docutils literal"><span class="pre">list</span></tt> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong> Accessing buckets from templates should be done only after all
+other templates are rendered so that all dynamic data is collected. This
+can be achieved by giving the extra <tt class="docutils literal"><span class="pre">report=True</span></tt> argument to the
+<tt class="docutils literal"><span class="pre">poni.core.PlugIn</span></tt> <tt class="docutils literal"><span class="pre">add_file()</span></tt> call.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><pre>#for $item in $bucket("tcp")
+Node $item.source_node.name config $item.source_config.name connects to:
+  $item.dest_node:$item.port for some $item.protocol action...
+#end for</pre>
+</div>
+<p>Registering the template to be processed after all regular templates:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PlugIn</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">PlugIn</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_file</span><span class="p">(</span><span class="s">&quot;node-report.txt&quot;</span><span class="p">,</span> <span class="n">dest_path</span><span class="o">=</span><span class="s">&quot;/tmp/&quot;</span><span class="p">,</span> <span class="n">report</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="properties.html">System and Node Property Reference</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="ec2.html">Cloud Provisioning with Amazon EC2</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2010, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>
