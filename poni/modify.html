@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Modifying Properties and Settings &mdash; Poni v0.1 documentation</title>
+    <link rel="stylesheet" href="static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Poni v0.1 documentation" href="index.html" />
+    <link rel="next" title="Template Variables and Functions" href="template-variables.html" />
+    <link rel="prev" title="System and Node Property Reference" href="properties.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Poni v0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Modifying Properties and Settings</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="properties.html">System and Node Property Reference</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="template-variables.html">Template Variables and Functions</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="modifying-properties-and-settings">
+<h1>Modifying Properties and Settings<a class="headerlink" href="#modifying-properties-and-settings" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Although these examples use the <tt class="docutils literal"><span class="pre">set</span></tt> command, the functionality is mostly the same for
+the <tt class="docutils literal"><span class="pre">settings</span> <span class="pre">set</span></tt> command and for the extra <tt class="docutils literal"><span class="pre">variable</span></tt> arguments of the <tt class="docutils literal"><span class="pre">script</span></tt>
+command.</p>
+</div>
+<div class="section" id="properties-vs-settings">
+<h2>Properties vs. Settings<a class="headerlink" href="#properties-vs-settings" title="Permalink to this headline">¶</a></h2>
+<p>Each node and system has their own set of &#8220;properties&#8221;. Some of the properties have
+special behavior as described in the <a class="reference internal" href="properties.html#propref"><em>System and Node Property Reference</em></a>.</p>
+<p>Properties are stored internally in the Poni repository as <a class="reference external" href="http://json.org/">JSON</a> and all data-types and
+structures supported by <a class="reference external" href="http://json.org/">JSON</a> can be used in Poni. Hierarchies of properties can be
+created and accessed with the dot-syntax, e.g.
+<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">set</span> <span class="pre">somenode</span> <span class="pre">server.http.port:int=80</span></tt> or <tt class="docutils literal"><span class="pre">$node.server.http.port</span></tt> in <a class="reference external" href="http://pypi.python.org/pypi/Cheetah">Cheetah</a>
+templates.</p>
+<p>The repository JSON storage format is kept sorted by key and pretty-printed for
+readability especially when using a version control system to store the repository:</p>
+<div class="highlight-python"><pre>$ poni add-node example
+$ poni set example server.http.port:int=80 server.http.interface=127.0.0.1
+$ cat ~/.poni/default/system/example/node.json
+{
+    "host": "",
+    "server": {
+        "http": {
+            "interface": "127.0.0.1",
+            "port": 80
+        }
+    }
+}</pre>
+</div>
+<p>Example version control diff:</p>
+<div class="highlight-python"><pre>$ poni vc checkpoint baseline
+$ poni vc diff
+Changes:
+diff --git a/system/example/node.json b/system/example/node.json
+index ae0a8f4..4e86c5d 100644
+--- a/system/example/node.json
++++ b/system/example/node.json
+@@ -3,7 +3,7 @@
+     "server": {
+         "http": {
+             "interface": "127.0.0.1",
+-            "port": 80
++            "port": 8080
+         }
+     }
+ }
+\ No newline at end of file</pre>
+</div>
+<p>Properties are for storing node/system-specific information that is not e.g. inherited
+automatically from parent-nodes. However, when adding nodes with the <tt class="docutils literal"><span class="pre">add-node</span></tt> command,
+their properties can be <strong>copied</strong> (once) from the parent node with the <tt class="docutils literal"><span class="pre">--copy-props</span></tt>
+switch.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Properties currently do not support explicit typing or validation schemas: any
+data-types can be used, but they are not actively verified.</p>
+</div>
+<p>Settings are config-specific repositories and share the same structure and storage format
+with properties. However, config settings have a bit more features, namely inheritance
+and type validation.</p>
+<div class="section" id="settings-type-validation">
+<h3>Settings Type Validation<a class="headerlink" href="#settings-type-validation" title="Permalink to this headline">¶</a></h3>
+<p>TODO</p>
+</div>
+<div class="section" id="settings-inheritance">
+<h3>Settings Inheritance<a class="headerlink" href="#settings-inheritance" title="Permalink to this headline">¶</a></h3>
+<p>TODO</p>
+</div>
+</div>
+<div class="section" id="setting-basic-node-and-system-string-properties">
+<h2>Setting Basic Node and System String Properties<a class="headerlink" href="#setting-basic-node-and-system-string-properties" title="Permalink to this headline">¶</a></h2>
+<p>It is often necessary to set some basic node properties, such as the hostname or the
+IP-address:</p>
+<div class="highlight-python"><pre>$ poni list -p
+    node  webshop/frontend/server1
+    prop      depth:3, host:'', index:0
+    node  webshop/frontend/server2
+    prop      depth:3, host:'', index:1
+$ poni set -v server1 host=www.google.com
+root  INFO    webshop/frontend/server1: set host=u'www.google.com' (was u'')
+$ poni set -v server2 host=www.amazon.com
+root  INFO    webshop/frontend/server2: set host=u'www.amazon.com' (was u'')</pre>
+</div>
+<p>In the above example setting string properties is done by using the form <tt class="docutils literal"><span class="pre">name=value</span></tt>.
+The <tt class="docutils literal"><span class="pre">-v</span></tt> or <tt class="docutils literal"><span class="pre">--verbose</span></tt> flag enables every change made to be printed out.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Internally string properties are stored in Unicode form and the <tt class="docutils literal"><span class="pre">u</span></tt> before
+the values in the above output indicate this.</p>
+</div>
+</div>
+<div class="section" id="setting-integer-float-boolean-data-types">
+<h2>Setting Integer, Float, Boolean Data-types<a class="headerlink" href="#setting-integer-float-boolean-data-types" title="Permalink to this headline">¶</a></h2>
+<p>Other data-types can be specified by adding a colon and the type after the property name:</p>
+<div class="highlight-python"><pre>$ poni set -v server1 foo:int=123 bar:float=456.7 baz:bool=true
+root  INFO    webshop/frontend/server1: set baz=True (was None)
+root  INFO    webshop/frontend/server1: set foo=123 (was None)
+root  INFO    webshop/frontend/server1: set bar=456.69999999999999 (was None)</pre>
+</div>
+<p>Integer values can be specified in binary, octal, decimal or hexdecimal format:</p>
+<div class="highlight-python"><pre>$ poni set -v server2 a:int=0b1010 b:int=0o644 c:int=0xff
+root  INFO    webshop/frontend/server2: set a=10 (was None)
+root  INFO    webshop/frontend/server2: set c=255 (was None)
+root  INFO    webshop/frontend/server2: set b=420 (was None)</pre>
+</div>
+<p>Integer or float values can optionally specify SI (base-10) or IEEE-1541 (base-2)
+multipliers:</p>
+<div class="highlight-python"><pre>$ poni set -v server2 max_mem:int=64Mi disk_space:int=100Gi network_speed:int=100M
+root  INFO    webshop/frontend/server2: set disk_space=107374182400 (was None)
+root  INFO    webshop/frontend/server2: set network_speed=100000000 (was None)
+root  INFO    webshop/frontend/server2: set max_mem=67108864 (was None)</pre>
+</div>
+</div>
+<div class="section" id="null-values">
+<h2>Null values<a class="headerlink" href="#null-values" title="Permalink to this headline">¶</a></h2>
+<p>A null value (<tt class="xref docutils literal"><span class="pre">None</span></tt> in Python) can be set with <tt class="docutils literal"><span class="pre">null</span></tt> as the data type:</p>
+<div class="highlight-python"><pre>$ poni set -v server2 nothing:null    INFO    webshop/frontend/server2: set nothing=None (no change)</pre>
+</div>
+</div>
+<div class="section" id="eval-expressions">
+<h2>Eval expressions<a class="headerlink" href="#eval-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Simple Python-expressions can be evaluated using the <tt class="docutils literal"><span class="pre">eval</span></tt> conversion:</p>
+<div class="highlight-python"><pre>$ poni set -v server2 meaning:eval=21*6/3
+root  INFO    webshop/frontend/server2: set meaning=42 (was None)
+
+$ poni set -v server2 'msglen:eval=len("hello, world")'
+root  INFO    webshop/frontend/server2: set msglen=12 (was None)</pre>
+</div>
+</div>
+<div class="section" id="accessing-environment-variables">
+<h2>Accessing Environment Variables<a class="headerlink" href="#accessing-environment-variables" title="Permalink to this headline">¶</a></h2>
+<p>Enviroment variables can be stored as properties using the <tt class="docutils literal"><span class="pre">env</span></tt> conversion:</p>
+<div class="highlight-python"><pre>$ poni set server2 -v term:env=TERM shell:env=SHELL
+root  INFO    webshop/frontend/server2: set term=u'xterm-color' (was None)
+root  INFO    webshop/frontend/server2: set shell=u'/bin/bash' (was None)</pre>
+</div>
+</div>
+<div class="section" id="resolving-ip-addresses">
+<h2>Resolving IP Addresses<a class="headerlink" href="#resolving-ip-addresses" title="Permalink to this headline">¶</a></h2>
+<p>Resolving DNS names to IPv4 or IPv6 addresses:</p>
+<div class="highlight-python"><pre>$ poni set -v server2 address1:ipv4=www.funet.fi address2:ipv6=www.funet.fi
+root  INFO    webshop/frontend/server2: set address1=u'81.90.77.32' (was None)
+root  INFO    webshop/frontend/server2: set address2=u'2a00:16a0:0:100::21:3' (was None)</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently only the first available IP address is returned. If there are more
+than one IPs, the rest are just discarded. Also note that resolving the address
+is done only once (during the <tt class="docutils literal"><span class="pre">set</span></tt> command) and not updated automatically.</p>
+</div>
+</div>
+<div class="section" id="two-way-conversions">
+<h2>Two-way Conversions<a class="headerlink" href="#two-way-conversions" title="Permalink to this headline">¶</a></h2>
+<p>Many conversions can be done in two ways: &#8220;to format X&#8221; (encoding) and &#8220;from format X&#8221;
+(decoding). Let&#8217;s use hex encoding strings as the example:</p>
+<div class="highlight-python"><pre>$ poni set server2 -v message:hex=hello
+root  INFO    webshop/frontend/server2: set message='68656c6c6f' (was None)</pre>
+</div>
+<p>I the above example the default direction, which is to encode, was used and &#8220;hello&#8221; was
+converted to its hexadecimal representation. In order to specify decoding instead of
+encoding, a minus-sign is added before the conversion name:</p>
+<div class="highlight-python"><pre>$ poni set server2 -v message:-hex=68656c6c6f
+root  INFO    webshop/frontend/server2: set message='hello' (was u'68656c6c6f')</pre>
+</div>
+<p>A plus-sign can be added in a similar fashion to explicitly define that encoding is
+requested, but it is redundant as the default is always to encode.</p>
+<p>Python standard codec names (see
+<a class="reference external" href="http://docs.python.org/library/codecs.html#standard-encodings">http://docs.python.org/library/codecs.html#standard-encodings</a>) can be used in
+conversions, for example:</p>
+<div class="highlight-python"><pre>$ poni set server2 -v secret:rot13=confidential example:base64=hello123
+root  INFO    webshop/frontend/server2: set secret='pbasvqragvny' (was None)
+root  INFO    webshop/frontend/server2: set example='aGVsbG8xMjM=\n' (was None)</pre>
+</div>
+</div>
+<div class="section" id="character-set-conversions">
+<h2>Character Set Conversions<a class="headerlink" href="#character-set-conversions" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
+</div>
+<div class="section" id="accessing-node-properties">
+<h2>Accessing Node Properties<a class="headerlink" href="#accessing-node-properties" title="Permalink to this headline">¶</a></h2>
+<p>Referencing node properties (<tt class="docutils literal"><span class="pre">set</span></tt> command) or config properties (<tt class="docutils literal"><span class="pre">set</span></tt> or
+<tt class="docutils literal"><span class="pre">settings</span> <span class="pre">set</span></tt> commands) is available thru the <tt class="docutils literal"><span class="pre">prop</span></tt> directive. To copy an existing
+property:</p>
+<div class="highlight-python"><pre>$ poni set -v server2 host2:prop=node.host
+root  INFO    webshop/frontend/server2: set host2=u'www.amazon.com' (was None)</pre>
+</div>
+</div>
+<div class="section" id="chaining-conversions">
+<h2>Chaining conversions<a class="headerlink" href="#chaining-conversions" title="Permalink to this headline">¶</a></h2>
+<p>Multiple conversions can be chained together by adding more conversion separated by
+colons. For example, updating the <tt class="docutils literal"><span class="pre">private.ip</span></tt> node property by resolving the IP
+address of each host:</p>
+<div class="highlight-python"><pre>$ poni add-node linux/debian
+$ poni add-node linux/ubuntu
+$ poni set linux/debian host=www.debian.org
+$ poni set linux/ubuntu host=www.ubuntu.org
+$ poni set -v linux/ private.ip:prop:ipv4=node.host
+root  INFO    linux/debian: set private.ip=u'213.129.232.18' (was None)
+root  INFO    linux/ubuntu: set private.ip=u'147.83.195.55' (was None)</pre>
+</div>
+<p>The funky part is the <tt class="docutils literal"><span class="pre">private.ip:prop:ipv4=node.host</span></tt> property definition. Let&#8217;s break
+it into parts:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">private.ip</span></tt> defines the property we are overwriting</li>
+<li>There are two conversions: <tt class="docutils literal"><span class="pre">prop</span></tt> and <tt class="docutils literal"><span class="pre">ipv4</span></tt> (in that order!)</li>
+<li>The starting value is a string containing the characters: <tt class="docutils literal"><span class="pre">node.host</span></tt></li>
+</ul>
+<p>Here&#8217;s how the whole thing gets processed for the <tt class="docutils literal"><span class="pre">linux/debian</span></tt> node:</p>
+<ol class="arabic simple">
+<li>The string value <tt class="docutils literal"><span class="pre">node.host</span></tt> is fed to the <tt class="docutils literal"><span class="pre">prop</span></tt> conversion, which looks up the
+<tt class="docutils literal"><span class="pre">host</span></tt> property of the <tt class="docutils literal"><span class="pre">node</span></tt> object, which results in the value
+<tt class="docutils literal"><span class="pre">www.debian.org</span></tt>.</li>
+<li>The string value <tt class="docutils literal"><span class="pre">www.debian.org</span></tt> is given to the <tt class="docutils literal"><span class="pre">ipv4</span></tt> conversion, which then
+tries to resolve the IP address behind it. The result is <tt class="docutils literal"><span class="pre">213.129.232.18</span></tt>.</li>
+<li>Finally, the value <tt class="docutils literal"><span class="pre">213.129.232.18</span></tt> is stored into the <tt class="docutils literal"><span class="pre">private.ip</span></tt> node property.</li>
+</ol>
+</div>
+<div class="section" id="encoding-and-decoding-json">
+<h2>Encoding and Decoding JSON<a class="headerlink" href="#encoding-and-decoding-json" title="Permalink to this headline">¶</a></h2>
+<p>Data can be converted to and front JSON using the <tt class="docutils literal"><span class="pre">json</span></tt> conversion. For example, to
+decode a JSON input string and store the resulting object we can do something like this:</p>
+<div class="highlight-python"><pre>$ poni set server2 -v 'json_example:-json=[1, 2.3, "hello"]'
+root  INFO    webshop/frontend/server2: set json_example=[1, 2.2999999999999998, u'hello'] (was None)</pre>
+</div>
+<p>Note the minus-sign before <tt class="docutils literal"><span class="pre">json</span></tt>, indicating the decoding <strong>from JSON</strong> is requested.
+Encoding the sample input string <strong>to JSON</strong> (plus-sign) results in just wrapping the
+input string into a JSON string by adding one more level of quotes:</p>
+<div class="highlight-python"><pre>$ poni set server2 -v 'json_example2:+json=[1, 2.3, "hello"]'
+root  INFO    webshop/frontend/server2: set json_example2='"[1, 2.3, \\"hello\\"]"' (was None)</pre>
+</div>
+</div>
+<div class="section" id="creating-and-setting-uuids">
+<h2>Creating and Setting UUIDs<a class="headerlink" href="#creating-and-setting-uuids" title="Permalink to this headline">¶</a></h2>
+<p>Conversion <tt class="docutils literal"><span class="pre">uuid4</span></tt> can be used to create new totally random <a class="reference external" href="http://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a>:</p>
+<div class="highlight-python"><pre>$ poni set server -v nodeid:uuid4
+root  INFO    webshop/frontend/server1: set nodeid=u'38c7363d-9fec-49d0-a1a0-913715caa04b' (was None)
+root  INFO    webshop/frontend/server2: set nodeid=u'34075320-2b84-412d-8034-f45017edf7f4' (was None)</pre>
+</div>
+<p>Converting a 16-byte string into <a class="reference external" href="http://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a> format:</p>
+<div class="highlight-python"><pre>$ poni set server1 -v sampleid:uuid=0123456789abcdef
+root  INFO    webshop/frontend/server1: set sampleid=u'30313233-3435-3637-3839-616263646566' (was None)</pre>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="properties.html">System and Node Property Reference</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="template-variables.html">Template Variables and Functions</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2010, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>

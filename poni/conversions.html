@@ -1,0 +1,84 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Modifying Settings &mdash; Poni v0.1 documentation</title>
+    <link rel="stylesheet" href="static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Poni v0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Poni v0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Modifying Settings</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="modifying-settings">
+<h1>Modifying Settings<a class="headerlink" href="#modifying-settings" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Although these examples use the <tt class="docutils literal"><span class="pre">set</span></tt> command, the functionality is mostly the same for
+the <tt class="docutils literal"><span class="pre">settings</span> <span class="pre">set</span></tt> command and for the extra <tt class="docutils literal"><span class="pre">variable</span></tt> arguments of the <tt class="docutils literal"><span class="pre">script</span></tt>
+command.</p>
+</div>
+<div class="section" id="setting-node-and-system-properties">
+<h2>Setting Node and System Properties<a class="headerlink" href="#setting-node-and-system-properties" title="Permalink to this headline">¶</a></h2>
+<p>It is often necessary to set some basic node properties, such as the hostname or the
+IP-address:</p>
+<div class="highlight-python"><pre>$ poni list -p
+    node  webshop/frontend/server1
+    prop      depth:3, host:'', index:0
+    node  webshop/frontend/server2
+    prop      depth:3, host:'', index:1
+$ poni set -v server1 host=server1.company.com
+root  INFO    webshop/frontend/server1: set host=u'server1.company.com' (was u'')
+$ poni set -v server2 host=server2.company.com
+root  INFO    webshop/frontend/server2: set host=u'server2.company.com' (was u'')</pre>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2010, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>
