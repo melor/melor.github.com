@@ -1,0 +1,208 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Poni Changelog &mdash; Poni v0.3.1-12-g90331aa documentation</title>
+    <link rel="stylesheet" href="static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3.1-12-g90331aa',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Poni v0.3.1-12-g90331aa documentation" href="index.html" />
+    <link rel="next" title="Getting Started with Poni" href="getting-started.html" />
+    <link rel="prev" title="Welcome to Poni’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Poni v0.3.1-12-g90331aa documentation</span></a></h1>
+        <h2 class="heading"><span>Poni Changelog</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Welcome to Poni&#8217;s documentation!</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="getting-started.html">Getting Started with Poni</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="poni-changelog">
+<h1>Poni Changelog<a class="headerlink" href="#poni-changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-0-4">
+<h2>Version 0.4<a class="headerlink" href="#version-0-4" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">release date:</th><td class="field-body">under development</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">control</span></tt> command dependencies using <tt class="docutils literal"><span class="pre">provides=[&quot;foo&quot;]</span></tt> and
+<tt class="docutils literal"><span class="pre">requires=[&quot;foo&quot;]</span></tt></li>
+<li>parallel execution of &#8220;control&#8221; commands, runs max one concurrent task per
+host and obeys control command dependencies</li>
+<li><tt class="docutils literal"><span class="pre">remote.execute()</span></tt> and <tt class="docutils literal"><span class="pre">remote.shell()</span></tt> support <tt class="docutils literal"><span class="pre">verbose=True/False</span></tt>
+keyword arg</li>
+<li>updated puppet example to install everything using control commands</li>
+<li>new <tt class="docutils literal"><span class="pre">template:bool</span></tt> system/node property for disabling control commands
+and config template verification for template nodes</li>
+</ul>
+</div>
+<div class="section" id="version-0-3-1">
+<h2>Version 0.3.1<a class="headerlink" href="#version-0-3-1" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">release date:</th><td class="field-body">2010-12-26</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>added <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">require</span></tt> command that can be used to specify minimum poni
+version required by a script, e.g. <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">require</span> <span class="pre">'poni_version</span> <span class="pre">&gt;=</span> <span class="pre">&quot;0.3.1&quot;'</span></tt></li>
+</ul>
+</div>
+<div class="section" id="version-0-3">
+<h2>Version 0.3<a class="headerlink" href="#version-0-3" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">release date:</th><td class="field-body">2010-12-25</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>Poni is now in Python Package Index: <a class="reference external" href="http://pypi.python.org/pypi/poni">http://pypi.python.org/pypi/poni</a> and
+easy_installable</li>
+<li>syntax change for setting properties, new syntax:
+<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">set</span> <span class="pre">NODE</span> <span class="pre">PROPERTY[:MOD1[:MODN[...]]]=VALUE</span></tt></li>
+<li>allow multiple conversions using the <tt class="docutils literal"><span class="pre">set</span></tt> command, e.g.
+<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">set</span> <span class="pre">linux/</span> <span class="pre">private.ip:prop:ipv4=node.host</span></tt> will get the <tt class="docutils literal"><span class="pre">node.host</span></tt>
+value, resolve it to an ipv4 address and store it to <tt class="docutils literal"><span class="pre">private.ip</span></tt>
+(see <a class="reference external" href="http://melor.github.com/poni/modify.html#chaining-conversions">http://melor.github.com/poni/modify.html#chaining-conversions</a>)</li>
+<li>setting properties supports UUIDs, resolving ipv4 and ipv6 addresses,
+decoding/encoding using Python codecs, JSON encoding/decoding, SI and IEEE
+multiplier suffies (e.g. <tt class="docutils literal"><span class="pre">10M</span></tt> or <tt class="docutils literal"><span class="pre">100Kib</span></tt>) for numbers</li>
+<li>basic support for custom <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">control</span></tt> commands defined in config
+plugins (see e.g. <tt class="docutils literal"><span class="pre">examples/puppet/puppet-agent/plugin.py</span></tt>)</li>
+<li>documented functions and variables that are available in templates:
+<a class="reference external" href="http://melor.github.com/poni/template-variables.html">http://melor.github.com/poni/template-variables.html</a></li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">deploy/audit</span> <span class="pre">--path-prefix=/foo/bar</span></tt> now creates sub-directories for
+each node to prevent conflicts when deploying files from multiple nodes to
+the same directory</li>
+<li>Genshi XML-based template support using <tt class="docutils literal"><span class="pre">self.render_genshi_xml</span></tt> in
+plugins</li>
+<li><tt class="docutils literal"><span class="pre">find_config(PATTERN)</span></tt> is available in templates, yields matching configs
+and their nodes</li>
+<li>added <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">version</span></tt> command, displays the poni version number</li>
+</ul>
+</div>
+<div class="section" id="version-0-2">
+<h2>Version 0.2<a class="headerlink" href="#version-0-2" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">release date:</th><td class="field-body">2010-12-09</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>added heaps of docs: <a class="reference external" href="http://melor.github.com/poni/">http://melor.github.com/poni/</a></li>
+<li>colored output</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">show</span> <span class="pre">--diff</span></tt> displays differences between unrendered templates and
+fully rendered templates in diff format</li>
+<li>plugin-objects are visible to templates as <tt class="docutils literal"><span class="pre">$plugin</span></tt></li>
+<li>config settings are now visible to templates as <tt class="docutils literal"><span class="pre">$settings</span></tt>, deprecated
+<tt class="docutils literal"><span class="pre">$s</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">show</span> <span class="pre">--raw</span></tt> displays raw, unrendered templates</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">--color=on/off/auto</span></tt> controls colored output</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">settings</span> <span class="pre">list</span></tt> lists config settings and their values</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">settings</span> <span class="pre">set</span></tt> sets config settings</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">list</span> <span class="pre">--line-per-prop</span></tt> displays each property on a separate line</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">verify</span> <span class="pre">-v</span></tt> shows status for each file</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">list</span></tt> arguments <tt class="docutils literal"><span class="pre">-n</span></tt> (show nodes, default), <tt class="docutils literal"><span class="pre">-s</span></tt> (show systems)
+and <tt class="docutils literal"><span class="pre">-c</span></tt> (show configs)</li>
+<li>the top-level config is available to templates as <tt class="docutils literal"><span class="pre">$config</span></tt></li>
+<li>renamed version-control commands: <tt class="docutils literal"><span class="pre">commit</span></tt> is now <tt class="docutils literal"><span class="pre">checkpoint</span></tt> and
+<tt class="docutils literal"><span class="pre">status</span></tt> is now <tt class="docutils literal"><span class="pre">diff</span></tt></li>
+<li>added <tt class="docutils literal"><span class="pre">--full-match</span></tt>, <tt class="docutils literal"><span class="pre">-M</span></tt> to many commands, requires full pattern
+match (e.g. with node names) instead of partial match (which is default)</li>
+<li>ssh connections are retried on failure</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">import</span> <span class="pre">DEBFILE</span></tt> pulls poni configs from a Debian DEB package</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">cloud</span> <span class="pre">wait</span> <span class="pre">--state=STATE</span></tt> waits until node reaches specified running
+state</li>
+<li>deployment: specifying <tt class="docutils literal"><span class="pre">dest_path</span></tt> ending in a backslash will use the
+source filename as the deployed filename</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">deploy</span></tt> creates all directory levels when deploying a file</li>
+<li>config settings are inherited/loaded from parent configs</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">add-node</span></tt> supports <tt class="docutils literal"><span class="pre">--copy-props</span></tt> (used with <tt class="docutils literal"><span class="pre">--inherit</span> <span class="pre">NODE</span></tt>),
+copies all node properties from the source node</li>
+<li>parent node&#8217;s inherited configs are properly collected and used in deployment</li>
+<li>basic repository version-control support with Git using <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">vc</span> <span class="pre">init</span></tt>,
+<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">vc</span> <span class="pre">checkpoint</span> <span class="pre">MSG</span></tt> and <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">vc</span> <span class="pre">diff</span></tt> commands</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">add-config</span> <span class="pre">--copy-dir=DIR</span></tt> copies config templates, plugins, etc.
+from the given directory</li>
+</ul>
+</div>
+<div class="section" id="version-0-1">
+<h2>Version 0.1<a class="headerlink" href="#version-0-1" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">release date:</th><td class="field-body">2010-11-28</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>Initial version with basic deployment support</li>
+</ul>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Welcome to Poni&#8217;s documentation!</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="getting-started.html">Getting Started with Poni</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2010-2011, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>

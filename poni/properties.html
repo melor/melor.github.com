@@ -7,14 +7,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>System and Node Property Reference &mdash; Poni v0.3.1 documentation</title>
+    <title>System and Node Property Reference &mdash; Poni v0.3.1-12-g90331aa documentation</title>
     <link rel="stylesheet" href="static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/print.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.1-12-g90331aa',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,13 +24,13 @@
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
     <script type="text/javascript" src="_static/theme_extras.js"></script>
-    <link rel="top" title="Poni v0.3.1 documentation" href="index.html" />
+    <link rel="top" title="Poni v0.3.1-12-g90331aa documentation" href="index.html" />
     <link rel="next" title="Modifying Properties and Settings" href="modify.html" />
     <link rel="prev" title="Getting Started with Poni" href="getting-started.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>Poni v0.3.1 documentation</span></a></h1>
+          <span>Poni v0.3.1-12-g90331aa documentation</span></a></h1>
         <h2 class="heading"><span>System and Node Property Reference</span></h2>
       </div>
       <div class="topnav">
@@ -126,6 +126,13 @@ Affects all sub-systems and their nodes, too.</td>
 <td>boolean</td>
 <td><tt class="docutils literal"><span class="pre">true</span></tt> (verification is enabled) or <tt class="docutils literal"><span class="pre">false</span></tt> (verification is
 disabled)</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">template</span></tt></td>
+<td>Indicates a system or node only containing templates. Control commands
+are not run under template nodes and implies <tt class="docutils literal"><span class="pre">verify=false</span></tt>.</td>
+<td>boolean</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt> (system/node contains only templates) or <tt class="docutils literal"><span class="pre">false</span></tt> (regular
+system/node, default)</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">deploy</span></tt></td>
 <td>Node access method. Default is <tt class="docutils literal"><span class="pre">ssh</span></tt> if not defined with this
@@ -230,7 +237,7 @@ or block devices.</p>
       </div>
 
     <div class="footer">
-        &copy; Copyright 2010, Mika Eloranta.
+        &copy; Copyright 2010-2011, Mika Eloranta.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
     </div>
   </body>
