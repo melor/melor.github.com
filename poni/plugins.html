@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Developing Config Plugins &mdash; Poni v0.4-1-g95c200e documentation</title>
+    <link rel="stylesheet" href="static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.4-1-g95c200e',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Poni v0.4-1-g95c200e documentation" href="index.html" />
+    <link rel="next" title="Cloud Provisioning with Amazon EC2" href="ec2.html" />
+    <link rel="prev" title="Template Variables and Functions" href="template-variables.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Poni v0.4-1-g95c200e documentation</span></a></h1>
+        <h2 class="heading"><span>Developing Config Plugins</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="template-variables.html">Template Variables and Functions</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="ec2.html">Cloud Provisioning with Amazon EC2</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="developing-config-plugins">
+<h1>Developing Config Plugins<a class="headerlink" href="#developing-config-plugins" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Each config needs to have Python plug-in file that defines the behavior of the
+config in different phases of the config&#8217;s life-cycle.</p>
+<p>Plugins can be use to define:</p>
+<ul class="simple">
+<li>Individual template configuration files, how they are rendered and where
+are the resulting configuration files deployed</li>
+<li>Deployment-time file copy operations (individual files or recursively
+copying full directories)</li>
+<li>Custom <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">control</span></tt> operations that provide a convenient (relatively!)
+command-line interface to manipulating the config (e.g. install, start,
+stop, restart, verify)</li>
+</ul>
+</div>
+<div class="section" id="hello-world">
+<h2>Hello World!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
+<p>Here we&#8217;ll create a simple plugin that illustrates using some of the basic
+plugin functionality. The full example can be found in the <tt class="docutils literal"><span class="pre">examples/hello</span></tt>
+-directory in the Poni source code package.</p>
+<p>First, we&#8217;ll create a directory for the <tt class="docutils literal"><span class="pre">hello</span></tt> config and edit
+<tt class="docutils literal"><span class="pre">hello/plugin.py</span></tt> with your favourite file, inserting the following
+contents:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">poni</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="k">class</span> <span class="nc">PlugIn</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">PlugIn</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_file</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0644</span><span class="p">,</span> <span class="n">dest_path</span><span class="o">=</span><span class="s">&quot;/tmp/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, edit a new new file <tt class="docutils literal"><span class="pre">hello/hello.txt</span></tt>, to be used as the source
+template, and insert the following contents:</p>
+<div class="highlight-python"><pre>Hello from node $node.name, config $config.name!</pre>
+</div>
+<p>Now we have an <em>amazing</em> config that can be added to a node and deployed.
+Let&#8217;s create a simple system for testing it out:</p>
+<div class="highlight-python"><pre>$ poni -d /tmp/hello init
+$ poni -d /tmp/hello add-node batman
+$ poni -d /tmp/hello add-config -d hello/ batman hello-config
+$ poni -d  /tmp/hello list -snc
+    node  batman
+  config  batman/hello-config
+$ poni -d  /tmp/hello show -v
+--- BEGIN batman: path=/tmp/hello.txt ---
+Hello from node batman, config hello-config!
+
+--- END batman: path=/tmp/hello.txt ---</pre>
+</div>
+<p>As can be seen from the above output, the <tt class="docutils literal"><span class="pre">$node.name</span></tt> and <tt class="docutils literal"><span class="pre">$config.name</span></tt>
+template directives were rendered as expected. The difference between the
+original template and the fully-rendered one can be shown with the
+<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">show</span> <span class="pre">--diff</span></tt> -command:</p>
+<div class="highlight-python"><pre>$ poni -d  /tmp/hello show -v --diff
+--- BEGIN batman: path=/tmp/hello.txt ---
+--- template
++++ rendered
+@@ -1,1 +1,1 @@
+-Hello from node $node.name, config $config.name!
++Hello from node batman, config hello-config!
+--- END batman: path=/tmp/hello.txt ---</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">add_actions()</span></tt> method is called by Poni to collect deployable files for
+each config.</p>
+<p><strong>TODO:</strong></p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">add_file()</span></tt> arguments</li>
+<li><tt class="docutils literal"><span class="pre">add_dir()</span></tt> method</li>
+</ul>
+</div>
+<div class="section" id="control-commands">
+<h2>Control Commands<a class="headerlink" href="#control-commands" title="Permalink to this headline">¶</a></h2>
+<p>Custom commands for controlling deployed configs can be easily added. These
+commands are executed by running <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">control</span> <span class="pre">CONFIG-PATTERN</span> <span class="pre">COMMAND</span></tt>,
+which executes the <tt class="docutils literal"><span class="pre">COMMAND</span></tt> for each config that matches the
+<tt class="docutils literal"><span class="pre">CONFIG-PATTERN</span></tt>.</p>
+<p>Let&#8217;s add a command for observing the load-averages of the node. Edit the
+<tt class="docutils literal"><span class="pre">hello/plugin.py</span></tt>, and add the <tt class="docutils literal"><span class="pre">loadavg()</span></tt> method with just a dummy
+print statement for now:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">poni</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="k">class</span> <span class="nc">PlugIn</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">PlugIn</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_file</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0644</span><span class="p">,</span> <span class="n">dest_path</span><span class="o">=</span><span class="s">&quot;/tmp/&quot;</span><span class="p">)</span>
+
+    <span class="nd">@config.control</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">loadavg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;foo!&quot;</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">&#64;config.control()</span></tt> decorator defines a method as a control command.
+These methods are automatically collected by Poni and made available using
+the <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">control</span></tt> command.</p>
+<p>Now we can update the changes file to our repository with the
+<tt class="docutils literal"><span class="pre">update-config</span></tt> command and view the available controls with the
+<tt class="docutils literal"><span class="pre">list</span> <span class="pre">-C</span></tt> (note: <em>capital</em> &#8220;C&#8221;) command:</p>
+<div class="highlight-python"><pre>$ poni -d /tmp/hello update-config batman/hello-config hello/
+$ poni -d /tmp/hello/ list -C
+  config  batman/hello-config
+controls      loadavg</pre>
+</div>
+<p>Our loadavg command appears under the <tt class="docutils literal"><span class="pre">hello-config</span></tt>, let&#8217;s try running it:</p>
+<div class="highlight-python"><pre>$ poni -d /tmp/hello/ control batman/hello-config loadavg
+foo!
+poni  INFO    all [1] control tasks finished successfully</pre>
+</div>
+<p><strong>TODO:</strong></p>
+<ul class="simple">
+<li>config match patterns (system/node/config, system//config, system//,
+/config)</li>
+<li>remote execution</li>
+<li>&#8211;verbose mode</li>
+<li><tt class="docutils literal"><span class="pre">poni</span> <span class="pre">control</span></tt> argh parsers, arguments</li>
+<li>control command dependencies</li>
+<li>idempotency</li>
+<li>parallel execution (dependencies, max one concurrent job per host, &#8211;jobs=N)</li>
+</ul>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="template-variables.html">Template Variables and Functions</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="ec2.html">Cloud Provisioning with Amazon EC2</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2010-2011, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>
