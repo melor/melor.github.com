@@ -7,14 +7,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Template Variables and Functions &mdash; Poni v0.4.4 documentation</title>
+    <title>Template Variables and Functions &mdash; Poni v0.4.5-4-ge2e5ff1 documentation</title>
     <link rel="stylesheet" href="static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/print.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.4.4',
+        VERSION:     '0.4.5-4-ge2e5ff1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,13 +24,13 @@
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
     <script type="text/javascript" src="_static/theme_extras.js"></script>
-    <link rel="top" title="Poni v0.4.4 documentation" href="index.html" />
+    <link rel="top" title="Poni v0.4.5-4-ge2e5ff1 documentation" href="index.html" />
     <link rel="next" title="Developing Config Plugins" href="plugins.html" />
     <link rel="prev" title="Modifying Properties and Settings" href="modify.html" /> 
   </head>
   <body>
       <div class="header"><h1 class="heading"><a href="index.html">
-          <span>Poni v0.4.4 documentation</span></a></h1>
+          <span>Poni v0.4.5-4-ge2e5ff1 documentation</span></a></h1>
         <h2 class="heading"><span>Template Variables and Functions</span></h2>
       </div>
       <div class="topnav">
@@ -73,7 +73,7 @@
 <td><tt class="docutils literal"><span class="pre">$node.private.dns</span></tt></td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">settings</span></tt></td>
-<td>Config settings (with all settings layers applied)</td>
+<td>Config settings (with all settings layers applied), shortcut to <tt class="docutils literal"><span class="pre">$config.settings</span></tt></td>
 <td>dict</td>
 <td><tt class="docutils literal"><span class="pre">$settings.my_server.http_port</span></tt></td>
 </tr>
@@ -90,7 +90,7 @@
 <tr><td><tt class="docutils literal"><span class="pre">config</span></tt></td>
 <td>Config properties</td>
 <td><tt class="docutils literal"><span class="pre">poni.core.Config</span></tt></td>
-<td><tt class="docutils literal"><span class="pre">$system.get(&quot;parent&quot;,</span> <span class="pre">&quot;orphan!&quot;)</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">$config.name</span></tt>, <tt class="docutils literal"><span class="pre">$config.settings</span></tt></td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">plugin</span></tt></td>
 <td>Current config&#8217;s plug-in object. Allows e.g. calling custom methods
