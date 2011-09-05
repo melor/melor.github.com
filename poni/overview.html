@@ -1,0 +1,176 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &mdash; Poni v0.5-4-g6e6a332 documentation</title>
+    <link rel="stylesheet" href="static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.5-4-g6e6a332',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="_static/theme_extras.js"></script>
+    <link rel="top" title="Poni v0.5-4-g6e6a332 documentation" href="index.html" />
+    <link rel="next" title="Poni Changelog" href="changes.html" />
+    <link rel="prev" title="Welcome to Poni’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+      <div class="header"><h1 class="heading"><a href="index.html">
+          <span>Poni v0.5-4-g6e6a332 documentation</span></a></h1>
+        <h2 class="heading"><span>Overview</span></h2>
+      </div>
+      <div class="topnav">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Welcome to Poni&#8217;s documentation!</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="changes.html">Poni Changelog</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Poni is a systems management tool for defining, deploying and verifying complex
+multi-node computer systems.</p>
+<p>Poni helps managing systems in many ways:</p>
+<ul class="simple">
+<li>Systems, nodes, installed software and settings are stored in a central Poni
+repository, so there is a single location where the system is defined and
+documented.</li>
+<li>Changes to the Poni repository can be version-controlled with <a href="#id1"><span class="problematic" id="id2">Git_</span></a> allowing
+rollback and access to history of configuration changes.</li>
+<li>Applications are configured by rendering configuration templates, using a
+powerful template language (such as <a href="#id3"><span class="problematic" id="id4">Cheetah_</span></a>) reducing the need to write
+application-specific installation or configuration scripts.</li>
+<li>The entire system configuration is available when creating node-specific
+configuration files, making it easy to wire multiple nodes together.</li>
+<li>Virtual machines can be easily provisioned from a cloud provider (currently
+<a href="#id5"><span class="problematic" id="id6">`Amazon EC2`_</span></a> is supported).</li>
+</ul>
+<div class="section" id="challenges">
+<h2>Challenges<a class="headerlink" href="#challenges" title="Permalink to this headline">¶</a></h2>
+<p>These are some of the challenges that Poni attemps to address:</p>
+<ul class="simple">
+<li>Full automation (read: scriptability) support.</li>
+<li>Deployment so easy and repeatable that all developers, testers, admins and
+support engineers are able to rollout their own playground environments.</li>
+<li>Repeatable multi-tier software deployment.</li>
+<li>Configuring N frontend nodes to talk to M backend nodes. What happens when
+you add or remove a few nodes?</li>
+<li>Auditable configuration management over as much as possible of the deployed
+software stack.</li>
+<li>Integrating with multiple hypervisor (or &#8220;cloud&#8221;) providers.</li>
+<li>Optimizing the total time spent deploying a build from scratch for
+development and testing purposes.</li>
+<li>Traceability for configuration changes.</li>
+<li>Complexity of deploying different management systems.</li>
+<li>License cost and poor feature match of proprietary hypervisor
+implementations for fast-paced development activities.</li>
+<li>Managing configurations of any existing 3rd party and open-source software
+included in the solution stack.</li>
+<li>Common interface for configuring settings for all of the components in the
+stack.</li>
+<li>Producing reliable, up-to-date information regarding network addresses and
+the different network connections between nodes.</li>
+<li>Deep integration with the software stack that is deployed.</li>
+<li>Zero-downtime upgrades for a multi-tier, redundant system.</li>
+<li>Dynamic deployment for nodes and different features: must be able to leave
+out sub-systems and large features and still be able to deploy a whole,
+functional environment.</li>
+<li>Post-deployment administrative operations: starting/stopping components,
+online/offline nodes, checking node/component status, etc.</li>
+<li>Deployment-time dependencies (e.g. DB backends are deployed before DB
+frontends, package repository is deployed before nodes that require packages
+from it).</li>
+</ul>
+</div>
+<div class="section" id="solutions">
+<h2>Solutions<a class="headerlink" href="#solutions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Built for automation: all commands can be run from scripts, parameterized
+and with proper exit codes.</li>
+<li>Provides a holistic view to the entire system, all the nodes and their
+settings for configration file templates.</li>
+<li>Provides a <tt class="docutils literal"><span class="pre">poni</span> <span class="pre">audit</span></tt> command for verifying all deployed files. Can also
+diff the &#8220;unauthorized&#8221; changes.</li>
+<li>Possible to support multiple hypervisors.</li>
+<li>Deployment is fast enough to be done from scratch for most purposes. Base
+VM images do not contain any software, which helps reducing manual CM effort.</li>
+<li>The entire system configuration is stored in a single directory tree that
+is version controlled using Git. Full history of changes is visible as
+commits.</li>
+<li>Dynamic information collection from templates: pieces of information can be
+collected and reports produced out of them. Allows drawing network diagrams,
+defining firewall rules, etc.</li>
+<li>Provides multiple ways of controlling the deployed software post-deployment:
+custom &#8220;control commands&#8221; which are written in Python or simply by running
+shell commands over a specific set of nodes.</li>
+<li>Custom control commands can have dependencies: useful for installation
+commands that need to be executed in a certain order.</li>
+</ul>
+</div>
+<div class="section" id="how-poni-is-used">
+<h2>How Poni is Used<a class="headerlink" href="#how-poni-is-used" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Bundle software-specific configuration file templates and installation
+scripts into &#8220;Poni configs&#8221;. Typically one config represent one software
+component (for example DB, monitoring agent, HTTP server, etc.) Custom
+remote commands (e.g. for executing the installation script) are also
+defined in this step.</li>
+<li>Create node templates for the different node types. Configure each node
+type to include one or more Poni configs.</li>
+<li>Instantiate the node templates into node instances. Multiple nodes can
+be created from a single node template. (<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">create-node</span></tt>)</li>
+<li>(Optional) Automatically provision the nodes from a private or public
+cloud provider. Can also use pre-created HW-based nodes or pre-deployed
+VMs. (<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">cloud</span> <span class="pre">init</span></tt>)</li>
+<li>Deploy the templates, software packages and installation scripts to the
+hosts. (<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">deploy</span></tt>)</li>
+<li>Run the installation scripts. (<tt class="docutils literal"><span class="pre">poni</span> <span class="pre">control</span> <span class="pre">NODES</span> <span class="pre">COMMAND</span></tt>)</li>
+<li>DONE, system is up and running.</li>
+</ol>
+<p>The node creation, VM provisioning and software deployment steps are typically
+executed from a single script in order to provide an easy method of deploying
+from scratch.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Welcome to Poni&#8217;s documentation!</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="changes.html">Poni Changelog</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer">
+        &copy; Copyright 2010-2011, Mika Eloranta.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
